@@ -1,1 +1,2 @@
 add a way to play with the final product and test the neural network yourself.
+add a way to save neural networks and load them to play against them and for continued training between program closes.
