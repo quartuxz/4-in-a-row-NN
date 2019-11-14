@@ -1,0 +1,1 @@
+add a way to play with the final product and test the neural network yourself.

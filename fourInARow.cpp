@@ -27,12 +27,48 @@ void FourInARow::drawToConsole() const
 	}
 }
 
-bool FourInARow::playSimple(unsigned int xPosition, pieceTypes pieceType)
+std::vector<float> FourInARow::getPlainRepresantation(pieceTypes playerPiece)
+{
+	std::vector<float> retVal;
+	for (size_t i = 0; i < m_board.size(); i++)
+	{
+		for (size_t o = 0; o < m_board[i].size(); o++)
+		{
+			if (m_board[i][o] == empty) {
+				retVal.push_back(1);
+			}
+			else {
+				retVal.push_back(0);
+			}
+			if (m_board[i][o] == playerPiece) {
+				retVal.push_back(1);
+				retVal.push_back(0);
+			}
+			else {
+				retVal.push_back(0);
+				retVal.push_back(1);
+			}
+			m_board[i][o];
+		}
+
+	}
+	return retVal;
+}
+
+bool FourInARow::canPlay(unsigned int xPosition)const
 {
 	if (xPosition >= m_board.size()) {
 		return false;
 	}
-	if (m_board[xPosition][0] == empty) {
+	else if (m_board[xPosition][0] == empty) {
+		return true;
+	}
+	return false;
+}
+
+bool FourInARow::playSimple(unsigned int xPosition, pieceTypes pieceType)
+{
+	if (canPlay(xPosition)) {
 		for (int o = m_board[xPosition].size() - 1; o >= 0; o--)
 		{
 			if (m_board[xPosition][o] == empty) {
@@ -133,4 +169,18 @@ std::vector<std::vector<pieceTypes>> FourInARow::getBoard() const
 void FourInARow::setBoard(const std::vector<std::vector<pieceTypes>>&board)
 {
 	m_board = board;
+}
+
+void printGameEndType(endGameTypes endGameType)
+{
+	if (endGameType == blue) {
+		std::cout << "BLUE WINS!!" << std::endl;
+
+	}
+	else if (endGameType == red) {
+		std::cout << "RED WINS!!" << std::endl;
+	}
+	else if (endGameType == tie) {
+		std::cout << "TIE!!" << std::endl;
+	}
 }

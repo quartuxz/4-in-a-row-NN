@@ -1,6 +1,11 @@
 #pragma once
 #include <vector>
+#include <string>
+#include <random>
 
+typedef typename std::vector<unsigned int> neuronLayerConfig;
+
+class NeuralNetowrk;
 
 class Neuron {
 public:
@@ -18,8 +23,14 @@ public:
 	void setSynapses(std::vector<float>);
 	std::vector<float> getSynapses()const;
 
+	static void seedRandomEngine();
+
+	friend class NeuralNetwork;
+
 	~Neuron();
 private:
+	static std::default_random_engine m_engine;
+
 	std::vector<std::pair<Neuron*, float>> m_outGoingNeurons;
 	float m_outPutValue;
 };
@@ -27,18 +38,26 @@ private:
 class NeuralNetwork
 {
 private:
-	std::vector<std::vector<Neuron>> m_neurons;
+
+
+
+	std::vector<std::vector<Neuron*>> m_neurons;
 	std::vector<unsigned int> m_neuronConfig;
 public:
+
+
 	//creates neurons and synapses based on another object
 	void createFrom(const NeuralNetwork&);
 	//mutates the values of the synapses by the given amount
 	void mutate(unsigned int, unsigned int);
 	//creates random synapses with the provided number of neurons per layer
-	void createSynapses(std::vector<unsigned int>);
+	void createSynapses(neuronLayerConfig);
 	//simulates one run of the NN with the given values
 	float simulateOnce(std::vector<float>);
 
-	~NeuralNetwork();
+	void saveToFile(std::string)const;
+	void readFromFile(std::string);
+
+	virtual ~NeuralNetwork();
 };
 
